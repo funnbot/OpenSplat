@@ -2,12 +2,6 @@ name: OpenSplat (Windows CUDA)
 
 on:
   workflow_dispatch:
-    inputs:
-      refToBuild:
-        description: 'Commit SHA1'
-        required: true
-        default: 'undefined'
-        type: string
 
 jobs:
   build:
