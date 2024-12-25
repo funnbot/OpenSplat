@@ -49,6 +49,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
+          ref: main/eba9476
 
       - name: Setup Windows
         run: |
