@@ -2,14 +2,12 @@ name: OpenSplat (Windows CUDA)
 
 on:
   workflow_dispatch:
-    
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [ assigned, opened, synchronize, reopened ]
-  release:
-    types: [ published, edited ]
+    inputs:
+      refToBuild:
+        description: 'Commit SHA1'
+        required: true
+        default: 'undefined'
+        type: string
 
 jobs:
   build:
@@ -47,7 +45,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           submodules: recursive
-          ref: main/eba9476394301fc44e56dcba4a77d4c9d23e9f41
+          ref: ${{ inputs.refToBuild }}
           fetch-depth: 20
 
       - name: Setup Windows
