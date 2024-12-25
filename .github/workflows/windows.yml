@@ -1,6 +1,8 @@
 name: OpenSplat (Windows CUDA)
 
 on:
+  workflow_dispatch:
+    
   push:
     branches:
       - main
@@ -16,11 +18,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019, windows-2022] # [windows-2019, windows-2022]
+        os: [windows-2022] # [windows-2019, windows-2022]
         arch: [x64] # [x64, x86]
-        torch-version: [2.3.1, 2.2.1, 2.1.2] # [1.12.0, 1.13.0, 2.0.0, 2.1.0, 2.1.1, 2.1.2, 2.2.0, 2.2.1]
-        cuda-version: [12.4.0, 12.1.1] # [12.3.1, 12.1.1, 11.8.0, 11.7.1, 11.6.2, 11.5.2,11.4.4, 11.3.1, 11.2.2, 11.1.1, 11.0.3, cpu]
-        opencv-version: [4.10.0, 4.9.0] # [4.7.0, 4.8.1, 4.9.0]
+        torch-version: [2.3.1] # [1.12.0, 1.13.0, 2.0.0, 2.1.0, 2.1.1, 2.1.2, 2.2.0, 2.2.1]
+        cuda-version: [12.4.0] # [12.3.1, 12.1.1, 11.8.0, 11.7.1, 11.6.2, 11.5.2,11.4.4, 11.3.1, 11.2.2, 11.1.1, 11.0.3, cpu]
+        opencv-version: [4.10.0] # [4.7.0, 4.8.1, 4.9.0]
         cmake-build-type: [ Release ] # [Debug, ClangTidy]
         include:
           - os: windows-2019
@@ -152,13 +154,10 @@ jobs:
           cmake --build . --parallel --config ${{ matrix.cmake-build-type }}
 
       - name: Save Artifacts
-        if: ${{ matrix.os == 'windows-2022' && matrix.torch-version == '2.2.1' && matrix.cmake-build-type == 'Release' }}
         uses: actions/upload-artifact@v4
         with:
           path: |
-            build/libgsplat.so
-            build/opensplat
-            build/simple_trainer
+            build
 
       - name: Clean Compiler Cache
         shell: pwsh
